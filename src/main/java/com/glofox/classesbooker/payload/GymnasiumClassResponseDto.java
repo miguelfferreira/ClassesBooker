@@ -3,11 +3,17 @@ package com.glofox.classesbooker.payload;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class GymnasiumClassResponseDto {
 
     @JsonProperty("name")
@@ -22,7 +28,7 @@ public class GymnasiumClassResponseDto {
 
     @JsonProperty("capacity")
     @NotEmpty
-    @Schema(name = "capacity", type = "string", description = "The maximum capacity the class", example = "1")
+    @Schema(name = "capacity", type = "string", description = "The maximum capacity the class", example = "10")
     private int capacity;
 
     @JsonProperty("bookings")

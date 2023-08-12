@@ -107,8 +107,17 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
             if (gymnasiumClassDto.getCapacity() <= 0) {
                 throw new ForbiddenException("Minimum capacity is 1");
             }
+
             Date startDate = Utils.getDateFromString(gymnasiumClassDto.getStartDate());
             Date endDate = Utils.getDateFromString(gymnasiumClassDto.getEndDate());
+
+            if (isStartDateBeforeToday(startDate)) {
+                throw new ForbiddenException("The start date can't be before today's date");
+            }
+
+            if (isEndDateBeforeStartDate(startDate, endDate)) {
+                throw new ForbiddenException("The end date can't be before start date");
+            }
 
             if (classAlreadyExistsInThisPeriodOfDates(startDate, endDate)) {
                 throw new ForbiddenException("There is already a class in the period of dates provided");
@@ -157,12 +166,21 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
 
         if (!isEndDateEmpty) {
             endDate = Utils.getDateFromString(endDateStr);
+            if (isEndDateBeforeStartDate(startDate, endDate)) {
+                throw new ForbiddenException("The end date can't be before start date");
+            }
             if (!classAlreadyExistsInThisPeriodOfDates(startDate, endDate)) {
                 throw new ResourceNotFoundException("There is no class in the period of dates provided");
             }
         }
 
         int getNumberOfDaysBetweenTwoDates = !isEndDateEmpty ? Utils.getNumberOfDaysBetweenTwoDates(startDate, endDate) : 0;
+
+        if (!isEndDateEmpty) {
+            if (getNumberOfDaysBetweenTwoDates > numberOfExistentClassesOnthidPeriodOfDates(startDate, endDate)) {
+                throw new ResourceNotFoundException("In this period of time there are days with no classes, hence it is impossible to make a deletion");
+            }
+        }
 
         for (int i = 0; i <= getNumberOfDaysBetweenTwoDates; i++) {
             Date finalStartDate = Utils.addNumberOfDaysToDate(startDate, i);
@@ -220,5 +238,18 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
 
     private boolean classAlreadyExistsInThisPeriodOfDates(Date startDate, Date endDate) {
         return !gymnasiumClassRepository.findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(startDate, endDate).isEmpty();
+    }
+
+    private int numberOfExistentClassesOnthidPeriodOfDates(Date startDate, Date endDate) {
+        return gymnasiumClassRepository.findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(startDate, endDate).size();
+    }
+
+    private boolean isStartDateBeforeToday(Date startDate) {
+        Date today = Utils.addNumberOfDaysToDate(new Date(), -1);
+        return startDate.before(today);
+    }
+
+    private boolean isEndDateBeforeStartDate(Date startDate, Date endDate) {
+        return endDate.before(startDate);
     }
 }
