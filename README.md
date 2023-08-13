@@ -7,6 +7,7 @@ The requirements to run this project are the following:
 An IDE that can run a Java project is also recommended, but not obligatory
 
 On a step-to-step on how install Java you can use the following link: https://www.geeksforgeeks.org/download-and-install-java-development-kit-jdk-on-windows-mac-and-linux/
+
 On a step-to-step on how install Java you can use the following link: https://phoenixnap.com/kb/install-maven-windows
 
 # 2. How to run the project
