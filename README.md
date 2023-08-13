@@ -14,7 +14,7 @@ On a step-to-step on how install Java you can use the following link: https://ph
 
 In order to run the project you can use an IDE or run it through the command line. For the sake of brevity I'll explain how to run it through the command line, which is a lot faster:
 
-## How to run the through the command line:
+## How to run the project through the command line:
 
 In order to run the project through the command line, simply unzip it, go inside the folder it was extracted to an open a terminal. Once it's open, you will only have to run the following command: mvn spring-boot:run
 
