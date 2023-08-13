@@ -47,7 +47,7 @@ Besides the barebones endpoints asked in the assignment, I've added the followin
 
 ## Validations 
 
-There are a lot of validations that have been implmented since basic ones (check if given value is null), to more complex, mostly around and the possibility of adding and deleting classes.
+There are a lot of validations that have been implemented since basic ones (check if given value is null), to more complex ones, mostly around the possibility of adding and deleting classes.
 
 ### /classes endpoint
 
