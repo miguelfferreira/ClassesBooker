@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class GymnasiumClassResponseDto {
@@ -23,7 +21,7 @@ public class GymnasiumClassResponseDto {
 
     @JsonProperty("date")
     @NotEmpty
-    @Schema(name = "date", type = "string", description = "The start of the class", example = "12-08-2023")
+    @Schema(name = "date", type = "string", description = "The start of the class", example = "12-09-2023")
     private String date;
 
     @JsonProperty("capacity")

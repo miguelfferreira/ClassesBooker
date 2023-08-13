@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GymnasiumClassDto {
 
     @JsonIgnore
@@ -19,12 +23,12 @@ public class GymnasiumClassDto {
 
     @JsonProperty("startDate")
     @NotEmpty
-    @Schema(name = "startDate", type = "string", description = "The start date of the class", example = "12-08-2023")
+    @Schema(name = "startDate", type = "string", description = "The start date of the class", example = "12-09-2023")
     private String startDate;
 
     @JsonProperty("endDate")
     @NotEmpty
-    @Schema(name = "endDate", type = "string", description = "The end date of the class", example = "13-08-2023")
+    @Schema(name = "endDate", type = "string", description = "The end date of the class", example = "13-09-2023")
     private String endDate;
 
     @JsonProperty("capacity")

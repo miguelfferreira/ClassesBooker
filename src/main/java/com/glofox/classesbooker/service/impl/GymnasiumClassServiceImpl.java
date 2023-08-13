@@ -22,6 +22,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -214,6 +217,7 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
         return gymnasiumClass;
     }
 
+
     private boolean basicGymnasiumClassValidations(GymnasiumClassDto gymnasiumClassDto) {
         String errorValue = null;
         boolean isValid = true;
@@ -245,10 +249,15 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
     }
 
     private boolean isStartDateBeforeToday(Date startDate) {
-        Date today = Utils.addNumberOfDaysToDate(new Date(), -1);
-        return startDate.before(today);
-    }
+        Instant currentDateInstant = Instant.now();
+        Instant startDateInstant = startDate.toInstant();
 
+        LocalDate currentLocalDate = currentDateInstant.atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate startDateLocalDate = startDateInstant.atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return startDateLocalDate.isBefore(currentLocalDate);
+    }
+    
     private boolean isEndDateBeforeStartDate(Date startDate, Date endDate) {
         return endDate.before(startDate);
     }
