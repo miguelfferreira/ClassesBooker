@@ -28,6 +28,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,7 +47,16 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
         if (Utils.isDateFormatInvalid(startDateStr, endDateStr)) {
             throw new BadRequestException("Invalid date format: Valid date format is dd-MM-yyyy");
         }
+
+        if (sortDir == null) {
+            sortDir = SortDirEnum.ASC;
+        }
+        if (sortBy == null) {
+            sortBy = SortByEnum.startDate;
+        }
+
         Sort sort = sortDir.toString().equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy.toString()).ascending() : Sort.by(sortBy.toString()).descending();
+
         //create Pageable instance
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
@@ -148,12 +158,44 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
         return listOfGymnasiumClasses;
     }
 
-    /*@Override
-    public List<GymnasiumClassDto> updateClasses(GymnasiumClassDto gymnasiumClassDto) {
-        Iterable<GymnasiumClass> gymnasiumClasses = gymnasiumClassRepository.findAllByNameContaining(gymnasiumClassDto.getName());
-        gymnasiumClassRepository.deleteAll(gymnasiumClasses);
-        return createClasses(gymnasiumClassDto);
-    }*/
+
+    @Override
+    public GymnasiumClassResponseDto updateClass(GymnasiumClassDto gymnasiumClassDto) {
+        GymnasiumClassResponseDto gymnasiumClassResponseDto = null;
+        gymnasiumClassDto.setEndDate(gymnasiumClassDto.getStartDate());
+        if (basicGymnasiumClassValidations(gymnasiumClassDto)) {
+            if (Utils.isDateFormatInvalid(gymnasiumClassDto.getStartDate(), gymnasiumClassDto.getEndDate())) {
+                throw new BadRequestException("Invalid date format: Valid date format is dd-MM-yyyy");
+            }
+            if (gymnasiumClassDto.getCapacity() <= 0) {
+                throw new ForbiddenException("Minimum capacity is 1");
+            }
+
+            Date startDate = Utils.getDateFromString(gymnasiumClassDto.getStartDate());
+
+            if (isStartDateBeforeToday(startDate)) {
+                throw new ForbiddenException("The start date can't be before today's date");
+            }
+
+            Optional<GymnasiumClass> gymnasiumClass = gymnasiumClassRepository.findByStartDate(startDate);
+
+            if (!gymnasiumClass.isPresent()) {
+                throw new ResourceNotFoundException("There is no class on the given date");
+            }
+
+            GymnasiumClass gymnasiumClassToUpdate = gymnasiumClass.get();
+            gymnasiumClassToUpdate.setName(gymnasiumClassDto.getName());
+            gymnasiumClassToUpdate.setStartDate(Utils.getDateFromString(gymnasiumClassDto.getStartDate()));
+            gymnasiumClassToUpdate.setEndDate(Utils.getDateFromString(gymnasiumClassDto.getEndDate()));
+            gymnasiumClassToUpdate.setCapacity(gymnasiumClassDto.getCapacity());
+
+            GymnasiumClass updatedGymnasiumClass = gymnasiumClassRepository.save(gymnasiumClassToUpdate);
+
+            gymnasiumClassResponseDto = mapToDTO(updatedGymnasiumClass);
+
+        }
+        return gymnasiumClassResponseDto;
+    }
 
     @Override
     public void deleteClasses(String startDateStr, String endDateStr) {
@@ -257,7 +299,7 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
 
         return startDateLocalDate.isBefore(currentLocalDate);
     }
-    
+
     private boolean isEndDateBeforeStartDate(Date startDate, Date endDate) {
         return endDate.before(startDate);
     }

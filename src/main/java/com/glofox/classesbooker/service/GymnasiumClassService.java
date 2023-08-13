@@ -13,7 +13,7 @@ public interface GymnasiumClassService {
 
     List<GymnasiumClassResponseDto> createClasses(GymnasiumClassDto gymnasiumClassDto);
 
-    //List<GymnasiumClassResponseDto> updateClasses(GymnasiumClassDto gymnasiumClassDto);
+    GymnasiumClassResponseDto updateClass(GymnasiumClassDto gymnasiumClassDto);
 
     void deleteClasses(String startDateStr, String endDateStr);
 }

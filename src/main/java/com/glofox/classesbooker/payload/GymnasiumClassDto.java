@@ -27,12 +27,11 @@ public class GymnasiumClassDto {
     private String startDate;
 
     @JsonProperty("endDate")
-    @NotEmpty
     @Schema(name = "endDate", type = "string", description = "The end date of the class", example = "13-09-2023")
     private String endDate;
 
     @JsonProperty("capacity")
     @NotEmpty
-    @Schema(name = "capacity", type = "integer", description = "The maximum capacity the class", example = "1")
+    @Schema(name = "capacity", type = "integer", description = "The maximum capacity the class", example = "10")
     private Integer capacity;
 }

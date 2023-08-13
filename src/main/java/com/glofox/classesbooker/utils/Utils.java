@@ -19,7 +19,7 @@ public class Utils {
         try {
             date = dateFormatter.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            
         }
         return date;
     }

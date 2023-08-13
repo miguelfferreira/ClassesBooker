@@ -21,5 +21,4 @@ public interface GymnasiumClassRepository extends JpaRepository<GymnasiumClass, 
 
     List<GymnasiumClass> findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(Date startDate, Date endDate);
 
-    //Iterable<GymnasiumClass> findAllByNameContaining(String name);
 }

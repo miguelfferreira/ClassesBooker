@@ -34,8 +34,8 @@ public class GymnasiumClassController {
     public GymnasiumClassPaginated getAllClasses(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-            @RequestParam(value = "sortBy") SortByEnum sortBy,
-            @RequestParam(value = "sortDir") SortDirEnum sortDir,
+            @RequestParam(value = "sortBy", required = false) SortByEnum sortBy,
+            @RequestParam(value = "sortDir", required = false) SortDirEnum sortDir,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "startDate", required = false) String startDate,
             @RequestParam(name = "endDate", required = false) String endDate
@@ -49,11 +49,11 @@ public class GymnasiumClassController {
         return new ResponseEntity<>(gymnasiumClassService.createClasses(gymnasiumClassDto), HttpStatus.CREATED);
     }
 
-    /*@Operation(summary = "Updates existent Classes, based on the name")
+    @Operation(summary = "Updates existent Class, based on the startDate. Because it updates only one class, the endDate will not be taken into account (it will always be the same as the startDate)")
     @PutMapping()
-    public ResponseEntity<List<GymnasiumClassDto>> updateClasses(@Valid @RequestBody GymnasiumClassDto gymnasiumClassDto) {
-        return new ResponseEntity<>(gymnasiumClassService.updateClasses(gymnasiumClassDto), HttpStatus.CREATED);
-    }*/
+    public ResponseEntity<GymnasiumClassResponseDto> updateClass(@Valid @RequestBody GymnasiumClassDto gymnasiumClassDto) {
+        return new ResponseEntity<>(gymnasiumClassService.updateClass(gymnasiumClassDto), HttpStatus.OK);
+    }
 
     @Operation(summary = "Delete Classes. The number of classes deleted is based on the interval of days between the starDate and the endDate (date format must be dd-MM-yyyy). " +
             "If endDate is not passed only the class with startDate is deleted (if it exists)")

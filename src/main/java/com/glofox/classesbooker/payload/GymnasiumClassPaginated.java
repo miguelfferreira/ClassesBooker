@@ -16,7 +16,7 @@ public class GymnasiumClassPaginated {
     private List<GymnasiumClassResponseDto> content;
     @JsonProperty("pageNo")
     @NotEmpty
-    @Schema(name = "pageNo", type = "int", description = "The current page", example = "1")
+    @Schema(name = "pageNo", type = "int", description = "The current page", example = "0")
     private int pageNo;
 
     @JsonProperty("pageSize")
@@ -26,11 +26,11 @@ public class GymnasiumClassPaginated {
 
     @JsonProperty("totalElements")
     @NotEmpty
-    @Schema(name = "totalElements", type = "long", description = "The total number of Elements (the total number of classes fetched)", example = "1")
+    @Schema(name = "totalElements", type = "long", description = "The total number of Elements (the total number of classes fetched)", example = "20")
     private long totalElements;
 
     @JsonProperty("totalPages")
     @NotEmpty
-    @Schema(name = "totalPages", type = "string", description = "The total number of pages", example = "1")
+    @Schema(name = "totalPages", type = "string", description = "The total number of pages", example = "5")
     private int totalPages;
 }

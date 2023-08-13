@@ -87,7 +87,7 @@ class ClassesBookerApplicationTests {
         paramMap.add("pageNo", "0");
         paramMap.add("pageSize", "10");
         paramMap.add("sortBy", SortByEnum.startDate.toString());
-        paramMap.add("sortDir", SortDirEnum.asc.toString());
+        paramMap.add("sortDir", SortDirEnum.ASC.toString());
         paramMap.add("startDate", Utils.getStringFromDate(new Date()));
         paramMap.add("endDate", Utils.getStringFromDate(Utils.addNumberOfDaysToDate(new Date(), 1)));
 
@@ -112,7 +112,7 @@ class ClassesBookerApplicationTests {
         paramMap.add("pageNo", "0");
         paramMap.add("pageSize", "10");
         paramMap.add("sortBy", SortByEnum.startDate.toString());
-        paramMap.add("sortDir", SortDirEnum.asc.toString());
+        paramMap.add("sortDir", SortDirEnum.ASC.toString());
         paramMap.add("name", "Pilates");
         paramMap.add("startDate", Utils.getStringFromDate(new Date()));
         paramMap.add("endDate", Utils.getStringFromDate(Utils.addNumberOfDaysToDate(new Date(), 1)));
@@ -140,8 +140,37 @@ class ClassesBookerApplicationTests {
                 .andExpect(result -> assertEquals("There is already a class in the period of dates provided", result.getResolvedException().getMessage()));
     }
 
+
+    @Test
+    @Order(5)
+    public void testModifyExistentGymnasiumClassSuccessfully() throws Exception {
+        GymnasiumClassDto gymnasiumClassDtoUpdated = new GymnasiumClassDto(1L, "Aerobics", Utils.getStringFromDate(new Date()), null, 25);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/classes")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(asJsonString(gymnasiumClassDtoUpdated)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", Matchers.is(gymnasiumClassDtoUpdated.getName())))
+                .andExpect(jsonPath("$.date", Matchers.is(gymnasiumClassDtoUpdated.getStartDate())))
+                .andExpect(jsonPath("$.capacity", Matchers.is(gymnasiumClassDtoUpdated.getCapacity())));
+
+    }
+
     @Test
     @Order(6)
+    public void testModifyExistentGymnasiumClassUnsuccessfully() throws Exception {
+        GymnasiumClassDto gymnasiumClassDtoUpdated = new GymnasiumClassDto(1L, "Aerobics", Utils.getStringFromDate(Utils.addNumberOfDaysToDate(new Date(), 10)), null, 25);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/classes")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(asJsonString(gymnasiumClassDtoUpdated)))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
+                .andExpect(result -> assertEquals("There is no class on the given date", result.getResolvedException().getMessage()));
+    }
+
+    @Test
+    @Order(7)
     public void deleteExistentGymnasiumClass() throws Exception {
         MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("startDate", Utils.getStringFromDate(new Date()));
@@ -154,7 +183,7 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void tryToDeleteNotExistentGymnasiumClass() throws Exception {
         MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("startDate", Utils.getStringFromDate(Utils.addNumberOfDaysToDate(new Date(), 2)));
@@ -169,7 +198,7 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     public void testAddGymnasiumClassWithSuccessForBooking() throws Exception {
         GymnasiumClassDto gymnasiumClassDto = new GymnasiumClassDto(3L, "Pilates", Utils.getStringFromDate(new Date()), Utils.getStringFromDate(new Date()), 20);
 
@@ -184,7 +213,7 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     public void BookSuccessfully() throws Exception {
         BookingDto bookingDto = new BookingDto(1L, "Miguel", Utils.getStringFromDate(new Date()));
 
@@ -198,13 +227,13 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(10)
+    @Order(11)
     public void getListOfGymnasiumClassWithBooking() throws Exception {
         MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("pageNo", "0");
         paramMap.add("pageSize", "10");
         paramMap.add("sortBy", SortByEnum.startDate.toString());
-        paramMap.add("sortDir", SortDirEnum.asc.toString());
+        paramMap.add("sortDir", SortDirEnum.ASC.toString());
         paramMap.add("name", "Pilates");
         paramMap.add("startDate", Utils.getStringFromDate(new Date()));
         paramMap.add("endDate", Utils.getStringFromDate(Utils.addNumberOfDaysToDate(new Date(), 1)));
@@ -222,7 +251,7 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(11)
+    @Order(12)
     public void BookUnsuccessfulDueToNotExistentClass() throws Exception {
         BookingDto bookingDto = new BookingDto(2L, "Miguel", Utils.getStringFromDate(Utils.addNumberOfDaysToDate(new Date(), 2)));
 
@@ -235,7 +264,7 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(12)
+    @Order(13)
     public void BookUnsuccessfulBecauseItAlreadyExists() throws Exception {
         BookingDto bookingDto = new BookingDto(3L, "Miguel", Utils.getStringFromDate(new Date()));
 
@@ -248,7 +277,7 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(13)
+    @Order(14)
     public void deleteBookingSuccessfully() throws Exception {
         MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("memberName", "Miguel");
@@ -261,7 +290,7 @@ class ClassesBookerApplicationTests {
     }
 
     @Test
-    @Order(14)
+    @Order(15)
     public void deleteBookingUnsuccessfulBecauseItDoesNotExist() throws Exception {
         MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("memberName", "John");
@@ -322,23 +351,4 @@ class ClassesBookerApplicationTests {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ForbiddenException))
                 .andExpect(result -> assertEquals("Minimum capacity is 1", result.getResolvedException().getMessage()));
     }
-
-
-    /*if (Utils.isDateFormatInvalid(gymnasiumClassDto.getStartDate(), gymnasiumClassDto.getEndDate())) {
-        throw new BadRequestException("Invalid date format: Valid date format is dd-MM-yyyy");
-    }
-            if (gymnasiumClassDto.getCapacity() <= 0) {
-        throw new ForbiddenException("Minimum capacity is 1");
-    }
-
-    Date startDate = Utils.getDateFromString(gymnasiumClassDto.getStartDate());
-    Date endDate = Utils.getDateFromString(gymnasiumClassDto.getEndDate());
-
-            if (isStartDateBeforeToday(startDate)) {
-        throw new ForbiddenException("The start date can't be before today's date");
-    }
-
-            if (isEndDateBeforeStartDate(startDate, endDate)) {
-        throw new ForbiddenException("The end date can't be before start date");
-    }*/
 }
