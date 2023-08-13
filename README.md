@@ -16,7 +16,7 @@ In order to run the project you can use an IDE or run it through the command lin
 
 ## How to run the project through the command line:
 
-In order to run the project through the command line, simply unzip it, go inside the folder it was extracted to an open a terminal. Once it's open, you will only have to run the following command: mvn spring-boot:run
+In order to run the project through the command line, simply unzip it, go inside the folder it was extracted to an open a terminal. Once it's open, you will only have to run the following command: mvn integration-test spring-boot:run
 
 When you see this message (underlined with red), the app is running: 
 
@@ -31,7 +31,7 @@ Here, you can test all the available endpoints asked for this technical task.
 
 # 3. Database
 
-I've used an in-memory database H2, simply because it's a lot closer to a real-world working environment. It allowed me to JPA, as you will be able to check on the code.
+I've used an in-memory database H2, simply because it's a lot closer to a real-world working environment. It allowed me to use JPA, as you will be able to check on the code.
 
 It is also possible to access it its console via the following url: http://localhost:8080/h2-console
 
