@@ -15,7 +15,7 @@ In order to run the project you can use an IDE or run it through the command lin
 
 ## How to run the through the command line:
 
-In order to run the project through the command line, simply unzip it, go inside the folder it was extracted to an open a terminal. Once it's open, you will only have to run the following command: mvn integration-test spring-boot:run
+In order to run the project through the command line, simply unzip it, go inside the folder it was extracted to an open a terminal. Once it's open, you will only have to run the following command: mvn spring-boot:run
 
 When you see this message (underlined with red), the app is running: 
 
