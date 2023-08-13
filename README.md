@@ -58,9 +58,9 @@ There are a lot of validations that have been implmented since basic ones (check
 
 * On the DELETE method, it deletes the booking for the given member, on the given date
 
-## Unit Testing 
+## Testing 
 
-Unit tests have been implemented, both on the controllers level as on the repositories level.
+Tests have been implemented, at the controllers level.
 
 ## Documentation:
 Besides the documentation available on the aforementioned url: http://localhost:8080/swagger-ui/index.html, the is also a more detail documentation on the on the following url: http://localhost:8080/v3/api-docs. It is in Json format:
