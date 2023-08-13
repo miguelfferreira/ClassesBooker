@@ -222,7 +222,7 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
         int getNumberOfDaysBetweenTwoDates = !isEndDateEmpty ? Utils.getNumberOfDaysBetweenTwoDates(startDate, endDate) : 0;
 
         if (!isEndDateEmpty) {
-            if (getNumberOfDaysBetweenTwoDates > numberOfExistentClassesOnthidPeriodOfDates(startDate, endDate)) {
+            if (getNumberOfDaysBetweenTwoDates >= numberOfExistentClassesOnthisPeriodOfDates(startDate, endDate)) {
                 throw new ResourceNotFoundException("In this period of time there are days with no classes, hence it is impossible to make a deletion");
             }
         }
@@ -286,7 +286,7 @@ public class GymnasiumClassServiceImpl implements GymnasiumClassService {
         return !gymnasiumClassRepository.findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(startDate, endDate).isEmpty();
     }
 
-    private int numberOfExistentClassesOnthidPeriodOfDates(Date startDate, Date endDate) {
+    private int numberOfExistentClassesOnthisPeriodOfDates(Date startDate, Date endDate) {
         return gymnasiumClassRepository.findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(startDate, endDate).size();
     }
 
