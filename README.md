@@ -25,7 +25,7 @@ When you see this message (underlined with red), the app is running:
 
 To use the app just go to the following url: http://localhost:8080/swagger-ui/index.html
 
-<img width="1279" alt="Swagger" src="https://github.com/miguelfferreira/ClassesBooker/assets/37029487/f3e9cad7-dd7d-4e32-881d-5aa225c6f300">
+<img width="1280" alt="Swagger" src="https://github.com/miguelfferreira/ClassesBooker/assets/37029487/a40d7112-4749-4de1-9468-e6c8fec21150">
 
 Here, you can test all the available endpoints asked for this technical task.
 
@@ -53,6 +53,7 @@ There are a lot of validations that have been implmented since basic ones (check
 
 * On the GET method, I've added pagination, and the filter parameters are, beyond the pagination ones, the name, the startDate and the endDate
 * On the DELETE method, the number of classes to be deleted is based on the interval of days between the starDate and the endDate (date format must be dd-MM-yyyy). If endDate is not passed only the class with startDate is deleted (if it exists)
+* I've also added a PUT method, which allows the edition of one specific Class
 
 ### /bookings endpoint
 
