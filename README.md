@@ -51,7 +51,7 @@ There are a lot of validations that have been implmented since basic ones (check
 
 ### /classes endpoint
 
-* On the GET method, I've added pagination, and the filter parameters are, beyond the pagination ones, the name, the startDate and the enddDate
+* On the GET method, I've added pagination, and the filter parameters are, beyond the pagination ones, the name, the startDate and the endDate
 * On the DELETE method, the number of classes to be deleted is based on the interval of days between the starDate and the endDate (date format must be dd-MM-yyyy). If endDate is not passed only the class with startDate is deleted (if it exists)
 
 ### /bookings endpoint
