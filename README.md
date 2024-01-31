@@ -64,7 +64,7 @@ There are a lot of validations that have been implemented since basic ones (chec
 Tests have been implemented, at the controllers level.
 
 ## Documentation:
-Besides the documentation available on the aforementioned url: http://localhost:8080/swagger-ui/index.html, the is also a more detail documentation on the on the following url: http://localhost:8080/v3/api-docs. It is in Json format:
+Besides the documentation available on the aforementioned url: http://localhost:8080/swagger-ui/index.html, there is also a more detail documentation on the on the following url: http://localhost:8080/v3/api-docs. It is in Json format:
 
 <img width="1274" alt="API Documentation" src="https://github.com/miguelfferreira/ClassesBooker/assets/37029487/a2b32910-ea3d-4af6-8f0c-fcd235a4137c">
 
